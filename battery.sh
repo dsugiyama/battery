@@ -274,10 +274,8 @@ function golden_gate_write_limit() {
 ## #########################
 ## Detect supported SMC keys
 ## #########################
-macos_major_version=$(sw_vers -productVersion | cut -d. -f1)
-smc_supports_golden_gate=true
-if [[ "$macos_major_version" =~ ^[0-9]+$ && $macos_major_version -ge 27 ]] && \
-	smc_key_matches bfD0 ui32 4 && smc_key_matches bfE0 ui32 4 && smc_key_matches bfF0 ui8 1; then
+smc_supports_golden_gate=false
+if smc_key_matches bfD0 ui32 4 && smc_key_matches bfE0 ui32 4 && smc_key_matches bfF0 ui8 1; then
 	smc_supports_golden_gate=true
 fi
 [[ $($smc_binary -k CHTE -r) =~ "no data" ]] && smc_supports_tahoe=false || smc_supports_tahoe=true;
